@@ -1,0 +1,11 @@
+/.git/
+/.github/
+/.bundle
+/log/*
+/tmp/*
+/coverage/
+/spec/
+/test/
+/config/master.key
+/.env*
+.DS_Store

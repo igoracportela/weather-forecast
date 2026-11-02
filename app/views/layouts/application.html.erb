@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Weather Forecast" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Weather Forecast">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 0; background: #f6f7f9; color: #1d2330; }
+      main { max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+      .lookup { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+      .lookup label { flex-basis: 100%; font-weight: 600; }
+      .lookup input[type=text] { flex: 1; min-width: 12rem; padding: .5rem; font-size: 1rem; }
+      .lookup input[type=submit] { padding: .5rem 1rem; font-size: 1rem; }
+      .error { background: #fdecec; color: #8a1c1c; padding: .75rem; border-radius: .25rem; }
+      .forecast { background: #fff; border-radius: .5rem; padding: 1rem; margin-top: 1.5rem; }
+      .location { font-size: 1.1rem; font-weight: 600; margin: 0; }
+      .zip { margin: .25rem 0; color: #555; }
+      .source { display: inline-block; padding: .2rem .6rem; border-radius: 1rem; font-size: .85rem; }
+      .source.live { background: #e3f6e8; color: #1b6b34; }
+      .source.cached { background: #fff4d6; color: #7a5600; }
+      .current-temp { font-size: 3rem; margin: .5rem 0 0; }
+      .conditions, .high-low { margin: .25rem 0; }
+      .extended { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+      .extended caption { text-align: left; font-weight: 600; padding-bottom: .5rem; }
+      .extended th, .extended td { text-align: left; padding: .35rem; border-top: 1px solid #e6e8ec; }
+    </style>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>

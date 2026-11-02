@@ -1,0 +1,17 @@
+# Omakase Ruby styling for Rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
+plugins:
+  - rubocop-rspec
+
+# Failure-path examples assert several facts about one outcome (status, message, cache state).
+RSpec/MultipleExpectations:
+  Max: 6
+RSpec/ExampleLength:
+  Max: 25
+RSpec/NestedGroups:
+  Max: 4
+# Service objects are modules (`Weather::Lookup.call`), not classes; describe them by constant.
+RSpec/DescribeClass:
+  Exclude:
+    - spec/requests/**/*

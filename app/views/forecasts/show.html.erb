@@ -1,0 +1,53 @@
+<main>
+  <h1>Weather forecast</h1>
+
+  <%= form_with url: root_path, method: :get, local: true, class: "lookup" do |f| %>
+    <%= f.label :address, "US address or zip code" %>
+    <%= f.text_field :address, value: @address, maxlength: Weather::Lookup::MAX_LENGTH,
+          placeholder: "1600 Pennsylvania Ave NW, Washington, DC", autofocus: true, required: true %>
+    <%= f.submit "Get forecast", name: nil %>
+  <% end %>
+
+  <% if @error %>
+    <p class="error" role="alert"><%= @error %></p>
+  <% end %>
+
+  <% if @forecast %>
+    <section class="forecast">
+      <header>
+        <p class="location"><%= @forecast.location_name %></p>
+        <p class="zip">Zip code <%= @forecast.zip %></p>
+        <% if @forecast.cached? %>
+          <p class="source cached">
+            Cached result: fetched
+            <time datetime="<%= @forecast.fetched_at.iso8601 %>"><%= time_ago_in_words(@forecast.fetched_at) %> ago</time>,
+            refreshes after 30 minutes
+          </p>
+        <% else %>
+          <p class="source live">Live result: just fetched</p>
+        <% end %>
+      </header>
+
+      <div class="now">
+        <p class="current-temp"><%= temperature(@forecast.current_temperature) %></p>
+        <p class="conditions"><%= @forecast.current_conditions %></p>
+        <p class="high-low">H <%= temperature(@forecast.today_high) %> · L <%= temperature(@forecast.today_low) %></p>
+      </div>
+
+      <table class="extended">
+        <caption><%= @forecast.days.size %>-day forecast</caption>
+        <thead><tr><th>Day</th><th>Conditions</th><th>High</th><th>Low</th></tr></thead>
+        <tbody>
+          <% @forecast.days.each do |day| %>
+            <tr>
+              <td><%= forecast_day(day["date"]) %></td>
+              <td><%= day["conditions"] %></td>
+              <td><%= temperature(day["high"]) %></td>
+              <td><%= temperature(day["low"]) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+  <% end %>
+</main>

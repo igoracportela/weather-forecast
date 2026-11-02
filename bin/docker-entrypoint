@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+# No secret is baked into the image. The app keeps no sessions or
+# signed cookies, so a per-boot key is safe for a single container; set
+# SECRET_KEY_BASE explicitly when running several replicas.
+if [ -z "${SECRET_KEY_BASE}" ]; then
+  SECRET_KEY_BASE="$(ruby -rsecurerandom -e 'print SecureRandom.hex(64)')"
+  export SECRET_KEY_BASE
+  echo "SECRET_KEY_BASE not set; generated an ephemeral one for this boot" >&2
+fi
+
+exec "${@}"
